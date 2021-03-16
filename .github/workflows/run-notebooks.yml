@@ -33,5 +33,5 @@ jobs:
       - name: Run all notebooks
         run: |
           # Loop through all notebooks and run them using papermill
-          for i in in-class-demos/*.ipynb; do papermill $i testing.ipynb;
+          for i in *.ipynb; do papermill $i testing.ipynb;
           done
