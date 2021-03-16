@@ -2,6 +2,11 @@
 
 ## Review Checklist
 
+## CI Checks
+- [ ] The notebook runs from start to finish on all operating systems:
+   - [ ] Mac
+   - [ ] Windows
+   - [ ] Linux 
 ### Reproducibility
 - [ ] Are the data downloaded in the code
 - [ ] Are paths created to ensure they work on all operating systems (using  os.path.join)
