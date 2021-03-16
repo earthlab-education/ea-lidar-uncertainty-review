@@ -2,7 +2,7 @@
 
 ## Review Checklist
 
-### Reproducibility 
+### Reproducibility
 - [ ] Are the data downloaded in the code
 - [ ] Are paths created to ensure they work on all operating systems (using  os.path.join)
 - [ ] Are comments used to clarify the contents of the code that can’t be clarified using expressive variable and function names alone? (not too many comments - just enough)
@@ -28,4 +28,4 @@
 - [ ] Are there any areas that could be potentially improved (you can suggest improvements OR you can just highlight parts of the code where you suspect it could  be cleaner / more efficient.
 
 ### Novel Approaches to Problem solving
-- [ ] Highlight any novel approaches to completing the assignment. 
+- [ ] Highlight any novel approaches to completing the assignment.
