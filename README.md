@@ -12,3 +12,4 @@ All instructions can be completed outside of class if you can’t attend class t
 * The Jupyter Notebook that you originally submitted with all plots rendered (run from start to finish)
 * The `.py` file that you just created
 
+# Look I made a change
