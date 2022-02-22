@@ -7,9 +7,12 @@ All instructions can be completed outside of class if you can’t attend class t
 
 ![Save .py file from Notebook](save-notebook-py-file.gif "Save py file")
 
-### Submit a PULL REQUEST to the parent repo in earthlab containing two files:
+## Part 2 
 
+* Submit a PULL REQUEST to the parent repo in earthlab containing two files:
 * The Jupyter Notebook that you originally submitted with all plots rendered (run from start to finish)
 * The `.py` file that you just created
 
-# Look I made a change
+## Part 3
+
+* Review your partner's pull request
