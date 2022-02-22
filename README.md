@@ -1,5 +1,6 @@
 # Earth  Analytics Code Review Activity
 All instructions can be completed outside of class if you can’t attend class tomorrow!
+
 ## Part 1
 
 * Fork and clone this repo: https://github.com/earthlab-education/ea-2021-ndvi-automation-review 
@@ -12,7 +13,5 @@ All instructions can be completed outside of class if you can’t attend class t
 * Submit a PULL REQUEST to the parent repo in earthlab containing two files:
 * The Jupyter Notebook that you originally submitted with all plots rendered (run from start to finish)
 * The `.py` file that you just created
-
-## Part 3
 
 * Review your partner's pull request
