@@ -332,7 +332,7 @@ def mean_ndvi_df(folder_name):
             glob(os.path.join(adate, "*band*[4-5].tif")))
         landsat_qa_path = glob(os.path.join(adate, "*qa*"))
         # Store the date and file name for each date.
-        dates.append(adate[-29:-21])
+        dates.append(adate[50:58])
         site.append(adate[22:26])
         # Initialize list for bands 4 and 5 xarrays
         all_bands = []
