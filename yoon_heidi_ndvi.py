@@ -144,6 +144,8 @@ import earthpy as et
 import earthpy.mask as em
 import pyproj
 from matplotlib.dates import DateFormatter
+
+# Help with date time conversion between pandas and matplotlib
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
