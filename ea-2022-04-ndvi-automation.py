@@ -395,7 +395,8 @@ def get_site_date(filepath):
     site : String
     date : String
     """
-    site = filepath.split('/')[2]
+    # https://stackoverflow.com/questions/22804002/how-to-split-path-with-slashes
+    site = filepath.split(os.sep)[2]
     date = datetime.strptime(filepath.split('T')[0][-10:-2], "%Y%m%d")
 
     return site, date
@@ -433,7 +434,7 @@ def landsat_read_rgbbands(files, crop_boundary):
     for i, aband in enumerate(files):
         all_bands.append(
             (rxr.open_rasterio(aband, masked=True)
-             # Inlcuding from_disk=True makes code run faster
+             # Including from_disk=True makes code run faster
              .rio.clip(crop_boundary.geometry, from_disk=True)
              .squeeze())
         )
@@ -886,10 +887,11 @@ final_masked_solution = nb.convert_axes(plt, which_axes="current")
 
 # This path is reproducible
 output_path = os.path.join('ndvi-automation',
-                           'outputs')
+                           'outputs',
+                           'Landsat8_ndvi_neon2017.csv')
 
 # Converting to CSV file
-ndvi_df.to_csv(output_path+'/Landsat8_ndvi_neon2017.csv')
+ndvi_df.to_csv(output_path)
 
 
 # ## BONUS - Export a  .CSV File to Share (10 points possible)
