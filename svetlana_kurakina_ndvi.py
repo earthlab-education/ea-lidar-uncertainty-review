@@ -432,7 +432,7 @@ def construct_df(site_name,
     mean = [ndvi_mean]
 
     # Construct dataframe
-    ndvi_mean_df = pd.DataFrame(columns=["site","date","mean_ndvi"])
+    ndvi_mean_df = pd.DataFrame(columns = ["site","date","mean_ndvi"])
     ndvi_mean_df['site'] = sitename
     ndvi_mean_df['date'] = date
     ndvi_mean_df['mean_ndvi'] = mean
