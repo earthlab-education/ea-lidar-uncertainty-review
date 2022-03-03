@@ -146,7 +146,7 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 import rasterio as rio
-from rasterio.plot import plotting_extent
+#from rasterio.plot import plotting_extent
 import rioxarray as rxr
 import xarray as xr
 import earthpy as et
@@ -282,9 +282,9 @@ def mask_crop_ndvi(all_bands,
     crop_json = crop_bound.geometry
 
     # Open and clip qa layer using above object
-    pixel_qa = rxr.open_rasterio(pixel_qa_path[0], 
-                                 masked=True).rio.clip(crop_json,
-                                 from_disk=True).squeeze()
+    pixel_qa = rxr.open_rasterio(
+                pixel_qa_path[0], masked=True).rio.clip(
+                crop_json, from_disk=True).squeeze()
 
     # Calculate normalized difference (in this case NDVI)
     # all_bands[1] is landsat band 5 (NIR) and all_bands[0] is band 4 (red)
@@ -318,9 +318,7 @@ def mask_crop_ndvi(all_bands,
 # Path/directory configurations- re-used for Task 2 (loop)
 path = os.path.join("ndvi-automation", "sites")
 
-all_sites = sorted(
-        glob(os.path.join(
-            path, "*", "*", "*/")))
+all_sites = sorted(glob(os.path.join(path, "*", "*", "*/")))
 
 
 # Parse site name for Task 1 (single scene)
@@ -335,20 +333,17 @@ site = path_components[2]
 
 # Parse date for Task 1 (single scene)
 # Parse specified scene filename as string
-scene_5 = os.path.basename(
-    os.path.normpath(all_sites[4]))
+scene_5 = os.path.basename(os.path.normpath(all_sites[4]))
 
 # Parse date from filename
 date = scene_5[10:18]
 
 # Extract crop geometry for Task 1 (single scene)
 # Designate directory containing vector file used to crop
-vector_dir = os.path.join(
-    path, site, "vector")
+vector_dir = os.path.join(path, site, "vector")
 
 # Create object that is path to shapefile by joining pre-existing objects
-crop_extent = os.path.join(
-    vector_dir,  site + "-crop.shp")
+crop_extent = os.path.join(vector_dir,  site + "-crop.shp")
 
 #Create crop boundary using geopandas to read shapefile in above path
 crop_bound = gpd.read_file(crop_extent)
@@ -380,8 +375,7 @@ cloud_shadow = em.pixel_flags["pixel_qa"]["L8"]["Cloud Shadow"]
 vals = cloud_shadow + cloud + high_cloud_confidence
 
 # Create path object for cloud mask qa raster for Task 1 (single scene)
-pixel_qa_path = glob(
-    os.path.join(scene_5_dir, "*qa*"))
+pixel_qa_path = glob(os.path.join(scene_5_dir, "*qa*"))
 
 # The resultant object has been cropped and cleaned for cloud effects
 ndvi_clean = mask_crop_ndvi(all_bands=all_bands,
@@ -391,13 +385,11 @@ ndvi_clean = mask_crop_ndvi(all_bands=all_bands,
 
 
 # Create dataframe of specified columns, populating mean_ndvi using np.nanmean
-scene_5_df = pd.DataFrame(
-                    columns=["date", "mean_ndvi", "site"], data=[
-                    [date, np.nanmean(ndvi_clean), site]])
+scene_5_df = pd.DataFrame(columns=["date", "mean_ndvi", "site"], data=[
+                          [date, np.nanmean(ndvi_clean), site]])
 
 # Convert date to datetime format
-scene_5_df['date'] = pd.to_datetime(
-    scene_5_df['date'], format='%Y%m%d')
+scene_5_df['date'] = pd.to_datetime(scene_5_df['date'], format='%Y%m%d')
 
 # Set date as index
 scene_5_df.set_index('date', inplace=True)
@@ -550,7 +542,7 @@ for site_dir in all_sites:
     
     # Format parsed date string into datetime object
     all_scenes['date'] = pd.to_datetime(
-                        all_scenes['date'], format='%Y%m%d')
+        all_scenes['date'], format='%Y%m%d')
     
     # Populate alldata object created just before start of loop
     alldata.append(all_scenes)
