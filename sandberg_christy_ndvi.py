@@ -589,7 +589,7 @@ df_points
 
 # clean 'full_ndvi_df' for plot, removing 'nan' values by keeping only the 
 # rows with mean_ndvi > 0 
-ndvi_for_plot = full_ndvi_df[full_ndvi_df['mean_ndvi'] > 0]
+full_ndvi_df.dropna(subset=['mean_ndvi'], inplace=True)
 
 print(ndvi_for_plot)
 
