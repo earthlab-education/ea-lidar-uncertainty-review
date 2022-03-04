@@ -288,7 +288,6 @@ def process_single_scene (path_to_scene_dir, valid_range):
         landsat pixel_qa layer
     ndvi_bands : list
         list of two cropped bands to be used for NDVI calculation
-        
     """     
     
     # get the site name ('site') from site directory name 
@@ -350,7 +349,6 @@ def calculate_masked_ndvi(ndvi_bands, pixel_qa):
      ndvi_masked : numpy array
          The element-wise result of (b1-b2) / (b1+b2) calculation after the 
          cloud mask is applied 
-
     """
     ndvi = (ndvi_bands[1]-ndvi_bands[0]) / (ndvi_bands[1]+ndvi_bands[0])
     
