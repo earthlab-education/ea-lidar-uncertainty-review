@@ -162,11 +162,9 @@ import geopandas as gpd
 import pandas as pd
 import rioxarray as rxr
 import xarray as xr
-from rasterio.plot import plotting_extent
 import earthpy as et
 import earthpy.spatial as es
 import earthpy.plot as ep
-import earthpy.mask as em
 
 # Get data and set working directory
 data = et.data.get_data('ndvi-automation')
