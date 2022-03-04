@@ -695,7 +695,11 @@ final_masked_solution = nb.convert_axes(plt, which_axes="current")
 #    * all imports at top of notebook.
 
 # ## BONUS - Export a  .CSV File to Share (10 points possible)
-# 
+csvfile = os.path.join(data_path,
+                       'ndvi-automation',
+                       'outputs',
+                       'harv_sjer_meanNDVI_clean.csv')
+ndvi_mean_df.to_csv(csvfile)
 # This is optional - if you export a **.csv** file with the columns specified above: Site, Date and NDVI Value you can get an additional 10 points.
 # 
 # * FULL CREDIT: File exists in csv format and contains the columns specified.
