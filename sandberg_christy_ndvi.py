@@ -168,9 +168,16 @@ import earthpy.plot as ep
 
 # Get data and set working directory
 data = et.data.get_data('ndvi-automation')
-os.chdir(os.path.join(et.io.HOME,
-                      "earth-analytics",
-                      "data"))
+
+# Designate working directory path as object.
+mypath = os.path.join(et.io.HOME, 'earth-analytics', 'data')
+
+# Change working directory to specified path.
+if os.path.exists(mypath):
+    os.chdir(mypath)
+else:
+    os.makedirs(mypath),
+    os.chdir(mypath) 
 
 
 # In[3]:
