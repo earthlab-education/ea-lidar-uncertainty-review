@@ -281,6 +281,7 @@ def cloud_mask_ndvi(ndvi_array, folder_path, crop_bound, masked_values):
     arr : xarray DataArray
         An xarray DataArray with ndvi values, masked to values provided
     """
+    # Get quality assurance file from folder of Landsat files
     qa_path = glob(os.path.normpath(os.path.join(folder_path, "*pixel*.tif")))
     qa_file = rxr.open_rasterio(
             qa_path[0], masked=True).rio.clip(crop_bound.geometry, 
@@ -471,6 +472,7 @@ for site in sites:
         # Then calculate NDVI
         ndvi_xr = (all_bands[1]-all_bands[0]) / (all_bands[1]+all_bands[0])
         
+        # Add cloud mask values for Landsat 8 for cleaning up the raster
         high_cloud_confidence = em.pixel_flags["pixel_qa"]["L8"]["High Cloud Confidence"]
         cloud = em.pixel_flags["pixel_qa"]["L8"]["Cloud"]
         cloud_shadow = em.pixel_flags["pixel_qa"]["L8"]["Cloud Shadow"]
