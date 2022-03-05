@@ -261,6 +261,7 @@ def open_clean_bands(band_path,
 
     return band_xr
 
+  
 def cloud_mask_ndvi(ndvi_array, folder_path, crop_bound, masked_values):
     """Use landsat QA files to mask clouds from Landsat geotiffs.
      Parameters
