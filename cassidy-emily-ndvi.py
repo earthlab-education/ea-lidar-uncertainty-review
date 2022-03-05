@@ -252,7 +252,7 @@ def open_clean_bands(band_path,
         An xarray DataArray with values that should be 
         masked set to 1 for True (Boolean)
     """
-    # TODO add tests to ensure the arrays are the same .shape
+    
     band = rxr.open_rasterio(band_path, masked=True).rio.clip(crop_bound.geometry,
                                                               from_disk=True).squeeze()
 
