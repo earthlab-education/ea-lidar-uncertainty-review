@@ -459,7 +459,6 @@ for site in sites:
     landsat_folders = sorted(glob(os.path.join(landsat_dir, "*")))
     
     for folder in landsat_folders:
-        print("Now processing", folder)
         # Open bands
         band_files = sorted(glob(os.path.join(folder, "*band*[4-5].tif")))
         all_bands = []
