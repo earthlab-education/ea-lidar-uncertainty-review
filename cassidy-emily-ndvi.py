@@ -302,6 +302,8 @@ def cloud_mask_ndvi(ndvi_array, folder_path, crop_bound, masked_values):
 # HINT: the time series lessons may help you remember how to do this!
 
 all_bands = []
+
+# Open Landsat band files for the HARV site
 for aband in band_files:
     print("Opening up", aband)
     cleaned_band = open_clean_bands(band_path=aband,
@@ -325,6 +327,7 @@ qa_file = rxr.open_rasterio(
     qa_path[0], masked=True).rio.clip(crop_bound.geometry, 
                                       from_disk=True).squeeze()
 
+# Add cloud values from Landsat 8 to remove influence of clouds
 high_cloud_confidence = em.pixel_flags["pixel_qa"]["L8"]["High Cloud Confidence"]
 cloud = em.pixel_flags["pixel_qa"]["L8"]["Cloud"]
 cloud_shadow = em.pixel_flags["pixel_qa"]["L8"]["Cloud Shadow"]
@@ -444,6 +447,8 @@ site_path = os.path.join("ndvi-automation", "sites")
 # Get a list of both site directories 
 sites = glob(os.path.join(site_path, "*"))
 
+# For the two NEON sites, open get the site boundary shapefile and 
+# get paths to folders with the Landsat band files
 ndvi_list = []
 for site in sites:
     path_components = site.split(os.sep)
@@ -458,6 +463,8 @@ for site in sites:
     landsat_dir = os.path.join(site_path, site_name, "landsat-crop")
     landsat_folders = sorted(glob(os.path.join(landsat_dir, "*")))
     
+    # This loop gets a list of band files so we can open them and calculate NDVI
+
     for folder in landsat_folders:
         # Open bands
         band_files = sorted(glob(os.path.join(folder, "*band*[4-5].tif")))
