@@ -153,7 +153,7 @@ import earthpy as et
 import earthpy.plot as ep
 import earthpy.spatial as es
 import earthpy.mask as em
-
+import warnings
 
 # Designate working directory path as object.
 mypath = os.path.join(et.io.HOME, 'earth-analytics', 'data')
@@ -225,20 +225,20 @@ start_time = datetime.now()
 # Function to open specified bands and mask any values outside specified range
 def open_clean_bands(band_path,
                      valid_range=None,):
-    """Open and mask a single landsat band using a valid reflectance value range.
+    """Open/mask single landsat band using a valid reflectance value range.
 
     Parameters
     -----------
     band_path : string
         A path to the array to be opened
     valid_range : tuple (optional)
-        A tuple of min and max range of values for the data. Default = None
+        A tuple of min and max values of the data. Default = None
 
 
     Returns
     -----------
     band : xarray DataArray
-        An xarray DataArray with values that should be masked set to 1 for True (Boolean)
+        An xarray DataArray w values to be masked = 1 for True (Boolean)
     """
 
     band = rxr.open_rasterio(band_path, masked=True).squeeze()
@@ -263,9 +263,9 @@ def mask_crop_ndvi(all_bands,
     Parameters
     -----------
     all_bands : list
-        A list containing xarray objects for landsat bands to be opened for ndvi calculation
+        A list of xarray objects for landsat bands used in ndvi calculation
     crop_bound: geopandas GeoDataFrame
-        A geopandas dataframe to be used to crop the raster data using rasterio mask().
+        A gpd dataframe to crop the raster data using rasterio mask().
     pixel_qa_path: string
         A path to a pixel qa tif file.
     vals: list
@@ -343,10 +343,10 @@ date = scene_5[10:18]
 vector_dir = os.path.join(path, site, "vector")
 
 # Create object that is path to shapefile by joining pre-existing objects
-crop_extent = os.path.join(vector_dir,  site + "-crop.shp")
+crop_extent_path = os.path.join(vector_dir,  site + "-crop.shp")
 
 #Create crop boundary using geopandas to read shapefile in above path
-crop_bound = gpd.read_file(crop_extent)
+crop_bound = gpd.read_file(crop_extent_path)
 
 
 # For loop to run open_clean_bands function to clean band 4 and 5 rasters
@@ -497,11 +497,11 @@ for site_dir in all_sites:
         path, site, "vector")
     
     # Make crop_extent directory object from shapefile of respective scene
-    crop_extent = os.path.join(
+    crop_extent_path = os.path.join(
         vector_dir, site + "-crop.shp")
     
     # Use geopandas to create crop_bound directory object
-    crop_bound = gpd.read_file(crop_extent)
+    crop_bound = gpd.read_file(crop_extent_path)
     
     # Make dir_name that is the respective scene name
     dir_name = os.path.basename(
@@ -527,15 +527,15 @@ for site_dir in all_sites:
                                 crop_bound=crop_bound,
                                 pixel_qa_path=pixel_qa_path,
                                 vals=vals)
-
-    # Run np.nanmean for each scene
-    mean_ndvi = np.nanmean(ndvi_clean)
-
+ 
     # Make an row of data for each scene to be appended
-    all_scenes = pd.DataFrame(columns=["date", "site",
-                                       "mean_ndvi"],
-                                        data=[[date, site, mean_ndvi]]
-                                        )
+    # Include warning suppression for np.nanmean(df) mean of empty slice
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        all_scenes = pd.DataFrame(columns=["date", "site",
+                                  "mean_ndvi"],
+                                  data=[[date, site, np.nanmean(ndvi_clean)]]
+                                  )
    
     # Added this line so the dataframe was identical to the example at top
     all_scenes.reset_index(inplace = True)
