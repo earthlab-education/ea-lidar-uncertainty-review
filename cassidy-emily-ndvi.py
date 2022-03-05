@@ -130,9 +130,7 @@ import pandas as pd
 import geopandas as gpd
 import rioxarray as rxr
 import xarray as xr
-from rasterio.plot import plotting_extent
 import earthpy as et
-import earthpy.spatial as es
 import earthpy.plot as ep
 import earthpy.mask as em
 
