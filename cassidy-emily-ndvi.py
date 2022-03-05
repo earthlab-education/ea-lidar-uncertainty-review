@@ -96,11 +96,15 @@
 #     * how the code is optimized to run fast and be more concise
 
 # # Replace this cell with your pseudocode  for this workflow
+# Pseudo code for NDVI workflow:
+# - Before we start the analysis, we will need to import the NDVI data and open up the geographic boundary shapefile.
+# - Then we will make a list of Landsat files we will loop through. To do that, make sure you're in the right site folder.
+# - Open individual band files and clip to the boundary. Clean them up to only include numbers in a valid range.
+# - Clean up the raster to only include numbers in a valid range.
+# - Mask out clouds in the raster.
+# - Calculate NDVI.
+# - Put NDVI values, site name, and date in a Pandas DataFrame.
 # 
-# If you happen to be a diagram person a diagram is ok too
-# 
-# 
-
 # In[1]:
 
 
