@@ -143,16 +143,15 @@ from glob import glob
 
 import matplotlib.pyplot as plt
 import numpy as np
-from numpy import ma
 import pandas as pd
 import geopandas as gpd 
 import xarray as xr 
 import rioxarray as rxr
 from rasterio.plot import plotting_extent
 import earthpy as et
-import earthpy.spatial as es
-import earthpy.plot as ep
 import earthpy.mask as em
+from matplotlib.dates import DateFormatter
+
 
 # Get data
 data = et.data.get_data('ndvi-automation')
@@ -251,7 +250,8 @@ landsat_dirs
 # Function A
 def open_clean_bands(band_path,
                      valid_range=None):
-    """Open and mask a single Landsat band using a pixel_qa layer.
+    """Open path to file, mask single band in file within specified
+       range values.
 
     Parameters
     ----------
@@ -262,23 +262,26 @@ def open_clean_bands(band_path,
 
     Returns
     ----------
-    arr : xarray DataArray
+    band : xarray DataArray
         An xarray DataArray with values that should be masked set to 1 for
         True (Boolean)
     """
+    
     # Open, clip, mask single band using rioxarray to valid range
     band = (rxr.open_rasterio(band_path, masked=True)
             .rio.clip(crop_bound.geometry, from_disk=True)
             .squeeze())
-    
+
     # Specify the valid range of values
-    if valid_range: 
+    if valid_range:
         mask = ((band <= 0) | (band > 10000))
         band = band.where(~mask, np.nan)
-        
+
     return band
 
 # Function B
+
+
 def mask_crop_ndvi(all_bands,
                    crop_bound,
                    pixel_qa,
@@ -290,7 +293,8 @@ def mask_crop_ndvi(all_bands,
     all_bands : list
         A list containing paths to Landsat bands 4 and 5 as .tif files
     pixel_qa : xarray DataArray
-        An xarray DataArray with pixel qa values that have not yet been turned into a mask (0s and 1s)
+        An xarray DataArray with pixel qa values that have not yet been 
+        turned into a mask (0s and 1s)
     crop_bounds : geopandas GeoDataFrame
         A geopandas dataframe to be used to crop the raster data using
         rasterio mask()
@@ -307,13 +311,18 @@ def mask_crop_ndvi(all_bands,
     bands = []
     for band_path in all_bands_path:
         clean_bands = open_clean_bands(band_path=band_path,
-                                valid_range=(0, 10000))
+                                       valid_range=(0, 10000))
 
         bands.append(clean_bands)
 
     # Open and clip cloud mask layer
     cl_mask = (rxr.open_rasterio(pixel_qa_path, masked=True)
                .rio.clip(crop_bound.geometry, from_disk=True).squeeze())
+    
+    # Apply cloud mask to NDVI
+    all_masked_values = [328, 392, 840, 904, 1350, 352, 368, 416,
+                         432, 480, 864, 880, 928, 944, 992, 480, 992]
+
 
     # Calculate NDVI
     ndvi_xr = (bands[1]-bands[0]) / (bands[1]+bands[0])
@@ -546,7 +555,19 @@ print("\n \u27A1 You received {} out of 10 points for creating a dataframe.".for
 df_points
 
 
+# In[ ]:
+
+
+
+
+
 # In[14]:
+
+
+all_ndvi_df
+
+
+# In[15]:
 
 
 # Add only the plot code to this cell
@@ -563,14 +584,21 @@ fig.suptitle('Mean Normalized Difference Vegetation Index\n Jan 2017 - Dec 2017'
              fontsize=20, fontweight='bold')
 
 
-for site, df in all_ndvi_df.groupby('site'):
+for site, df in all_ndvi_df.dropna().groupby('site'):
+    if site in ['HARV']:
+        site_name = 'HARV'
+    else:
+        site_name = 'SJER'
+    
     label = site
     color = site_colors[site]
-    ax.plot(all_ndvi_df["mean_ndvi"], 'o-',
-            label=label)
+    
+    ax.plot(df.index, df.mean_ndvi, label = site_name,
+            color = site_colors[site], marker = 'o')
 
 
-# Set labels
+# Set axes labels
+ax.xaxis.set_major_formatter(DateFormatter("%b"))
 ax.set(xlabel="Month",
        ylabel="Mean NDVI")
 
@@ -579,20 +607,18 @@ ax.legend(['HARV', 'SJER'], loc='upper right',
           bbox_to_anchor=(1.5, 1), borderaxespad=0)
 
 
-# final_ndvi_df.plot(ax=ax, marker='o', color='cyan')
-
 
 ### DO NOT REMOVE LINES BELOW ###
 final_masked_solution = nb.convert_axes(plt, which_axes="current")
 
 
-# In[15]:
+# In[16]:
 
 
 # Ignore this cell for the autograding tests
 
 
-# In[16]:
+# In[17]:
 
 
 # Ignore this cell for the autograding tests
@@ -643,3 +669,23 @@ final_masked_solution = nb.convert_axes(plt, which_axes="current")
 # * FULL CREDIT: File exists in csv format and contains the columns specified.
 # We will check your github repo for this file!
 # 
+
+# In[18]:
+
+
+# Export DataFrame to .csv file
+ndvi_df_csv = all_ndvi_df.dropna()
+
+
+# Export to directory
+ndvi_df_csv.to_csv(os.path.join(et.io.HOME,
+                                "earth-analytics",
+                                "ea-2022-04-ndvi-automation-cnorristellar",
+                                "ndvi_df.csv"))
+
+
+# In[ ]:
+
+
+
+
