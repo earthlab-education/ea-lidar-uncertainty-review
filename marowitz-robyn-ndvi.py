@@ -106,6 +106,7 @@ import tarfile
 import regex as re
 
 import json
+import numpy as np
 import folium
 import geopandas as gpd
 import pandas as pd
@@ -547,7 +548,7 @@ band_df
 #   
 # Not every step must be in the function - use your judgement about the most readable and DRY approach. 
 
-# In[13]:
+# In[27]:
 
 
 ill_ls_gdf = None
@@ -581,20 +582,26 @@ for date,one_date_df in band_df[band_df.band.isin([5,7])].groupby('date'):
     
 nbr_das[0]
 
-percent_nonnan = np.isnan(nbr_masked_da).sum() / nbr_masked_da.size
 
-if (percent_nonnan <= 0.5):
-    # Append each dataarray to a master list.
-    nbr_das.append(nbr_masked_da)
-
-nbr_stack_da = xr.concat(nbr_das, dim='date')
-
-
-# In[ ]:
+# In[16]:
 
 
 all_nbr_da = xr.concat(nbr_das, dim='date')
 all_nbr_da.plot(col='date')
+
+
+# In[28]:
+
+
+# Here i attempted to mask the cloud covereage but faced errors.
+
+# percent_nonnan = np.isnan(nbr_masked_da).sum() / nbr_masked_da.size
+
+# if (percent_nonnan <= 0.5):
+#     # Append each dataarray to a master list.
+#     nbr_das.append(nbr_masked_da)
+
+# nbr_stack_da = xr.concat(nbr_das, dim='date')
 
 
 # Test your process by plotting your data using the following code:
@@ -605,7 +612,7 @@ all_nbr_da.plot(col='date')
 #                              'yticklabels': 'off'})
 # ```
 
-# In[ ]:
+# In[29]:
 
 
 all_nbr_da.plot(col='date', col_wrap=5, 
@@ -617,11 +624,11 @@ all_nbr_da.plot(col='date', col_wrap=5,
 # 
 # In the cell below, summarize and plot your DataArray
 
-# In[ ]:
+# In[30]:
 
 
-# YOUR CODE HERE
-raise NotImplementedError()
+nbr_mean = nbr_das[4].groupby('date').mean()
+nbr_mean.plot(label='Mean NBR', color='red'
 
 
 # YOUR ANSWER HERE
