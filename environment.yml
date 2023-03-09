@@ -1,4 +1,4 @@
-name: ea-python
+name: ea-python-github
 channels:
   - conda-forge
   - defaults
@@ -6,27 +6,14 @@ channels:
 dependencies:
   - python=3.8
   # Core scientific python
-  - numpy
   - matplotlib
-  - pyqt
-  - seaborn
+  - pandas
 
   # Spatial packages
-  - descartes # for geopandas until they release
-  - rasterstats
-  - geopy
-  - contextily
-  - earthpy
-  - folium
-  - geojson
-  - geocoder
-  - rioxarray
-  - scipy
-  - nc-time-axis
+  - earthpy>=0.9.2
 
   # Jupyter Environment
   - papermill
-  - notebook
-  - ipython
-  # Autograding
-  - matplotcheck>=0.1.2
+
+  # PEP 8
+  - flake8_nb
