@@ -2,11 +2,6 @@
 
 ## Review Checklist
 
-## CI Checks
-- [ ] The notebook runs from start to finish on all operating systems:
-   - [ ] Mac
-   - [ ] Windows
-   - [ ] Linux 
 ### Reproducibility
 - [ ] Are the data downloaded in the code
 - [ ] Are paths created to ensure they work on all operating systems (using  os.path.join)
@@ -14,12 +9,14 @@
 - [ ] Does the notebook run from start to finish?
 
 ### PEP 8 standards & Code Readability
+
 ### Functions
 - [ ] Do functions follow PEP 8 format conventions?
 - [ ] Are function docstrings clear (all  inputs and outputs clearly  described and defined)
 - [ ] Are function names expressive (the name describes what the function does)?
 - [ ] Are functions easy to understand and read?
 - [ ] How many tasks does each function do? (ideally a function does one thing well).
+
 ### Package imports
 - [ ] Are standard modules (those included with the base  python install) vs. third party (related but externally developed tools) import groups correct with appropriate spacing in between each group?
 - [ ] Are variable names throughout the code, expressive?
