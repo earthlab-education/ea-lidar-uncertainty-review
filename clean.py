@@ -106,6 +106,9 @@ class NEONDataLoader(object):
         return self._height_stats
     
     def plots(self):
+        """
+        Create plots with regression lines.
+        """
     
         fig, (ax1,ax2) = plt.subplots(1, 2, figsize=(14, 7))
         # ax1.scatter(sjer_df.lidar_mean, sjer_df.insitu_mean)
