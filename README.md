@@ -1,14 +1,27 @@
-# Earth  Analytics Code Review Activity
-All instructions can be completed outside of class if you can’t attend class tomorrow!
-## Part 1
+# ea-05-lidar-uncertainty-worflow
 
-* Fork and clone this repo: https://github.com/earthlab-education/ea-2021-ndvi-automation-review 
-* Open your NDVI-automation Jupyter Notebook that you submitted for class in Jupyter Notebook. Make sure the notebook starts a [1] and is run all the way through from start to  finish. Export the notebook as a .py file using the file → save as option. Save the file to wherever you cloned your fork of the github repo linked above. *IMPORTANT: Your  name or last name should be in the filename!! Ideally use the naming convention: lastname_firstname_lidar_uncertainty.py*
+This repository is to recreate the LiDAR data analysis exploring tree heigh from the canopy heigh model.  This analysis will compare these measurements to the same types of measurements made by humans in the field.
 
-![Save .py file from Notebook](save-notebook-py-file.gif "Save py file")
+The necessary data can be retreived from the `EarthPy` pacakge.
 
-### Submit a PULL REQUEST to the parent repo in earthlab containing two files:
+https://earthpy.readthedocs.io/en/latest/
 
-* The Jupyter Notebook that you originally submitted with all plots rendered (run from start to finish)
-* The `.py` file that you just created
+This package, and other necessary packages can be installed into your local environment by installing the `environment.yml` file.  For example:
+
+- `conda env create -f environment.yml`
+
+It may be helpful to review the notes from EarthLab on creating and installing Conda Environments.
+
+https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/use-conda-environments-and-install-packages/
+
+Once you have the necessary packages installed you can download the data necessary to run this notebook as:
+
+`et.data.get_data('spatial-vector-lidar')`
+
+This notebook will:
+
+- For both the SJER and SOAP field sites, create scatterplots (with regression and 1:1 lines) that compare:
+    - **MAXIMUM** canopy height model height in meters, extracted within a 20 meter radius, compared to **MAXIMUM** tree
+- height derived from the *insitu* field site data.
+    - **MEAN** canopy height model height in meters, extracted within a 20 meter radius, compared to **MEAN** tree height derived from the *insitu* field site data.
 
